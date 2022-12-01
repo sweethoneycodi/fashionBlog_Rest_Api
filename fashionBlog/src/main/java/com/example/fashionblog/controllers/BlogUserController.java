@@ -1,10 +1,10 @@
 package com.example.fashionblog.controllers;
 
 import com.example.fashionblog.dto.UserDto;
-import com.example.fashionblog.pojo.request.CreateUserRequest;
-import com.example.fashionblog.pojo.response.CreateUserRest;
+import com.example.fashionblog.pojo.request.CreateAdminRequest;
+import com.example.fashionblog.pojo.request.LoginRest;
+import com.example.fashionblog.pojo.response.CreateAdminRest;
 import com.example.fashionblog.service.UserService;
-import com.example.fashionblog.service.serviceImp.UserServiceImp;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -18,14 +18,26 @@ import org.springframework.web.bind.annotation.RestController;
 public class BlogUserController {
     private final UserService userServiceImp;
     @PostMapping("/createdUser")
-    public CreateUserRest createUser(@Valid @RequestBody CreateUserRequest createUserRequest) {
-        CreateUserRest returnValue = new CreateUserRest();
+    public CreateAdminRest createUser(@Valid @RequestBody CreateAdminRequest createAdminRequest) {
+        CreateAdminRest returnValue = new CreateAdminRest();
 
         UserDto userDto = new UserDto();
-        BeanUtils.copyProperties(createUserRequest,userDto);
+        BeanUtils.copyProperties(createAdminRequest,userDto);
 
         UserDto created = userServiceImp.createUser(userDto);
         BeanUtils.copyProperties(created,returnValue);
+
+        return returnValue;
+    }
+    @PostMapping("/login")
+    public LoginRest loginAdmin(@RequestBody LoginRest request) {
+        LoginRest returnValue =  new LoginRest();
+
+        UserDto userDto = new UserDto();
+        BeanUtils.copyProperties(request,userDto);
+
+        UserDto found = userServiceImp.login(userDto);
+        BeanUtils.copyProperties(found,returnValue);
 
         return returnValue;
     }

@@ -1,6 +1,7 @@
 package com.example.fashionblog.exception;
 
 import com.example.fashionblog.exception.exceptionLoader.UserAlreadyExist;
+import com.example.fashionblog.exception.exceptionLoader.UserNotFound;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,16 @@ public class APIExceptionHandler {
         ApiException apiException = new ApiException(exist.getMessage(), HttpStatus.CONFLICT, LocalDateTime.now());
 
         return new ResponseEntity<>(apiException, HttpStatus.CONFLICT);
+    }
+
+
+
+    @ExceptionHandler(value = {UserNotFound.class})
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<Object> handleUserNotFoundException(UserNotFound e){
+        ApiException apiException = new ApiException(e.getMessage(), HttpStatus.NOT_FOUND, LocalDateTime.now());
+
+        return new ResponseEntity<>(apiException, HttpStatus.NOT_FOUND);
     }
 
 

@@ -5,4 +5,5 @@ import org.apache.catalina.UserDatabase;
 
 public interface UserService {
     UserDto createUser(UserDto user);
+    UserDto login(UserDto userDto);
 }
