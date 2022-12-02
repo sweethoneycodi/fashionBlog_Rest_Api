@@ -39,7 +39,7 @@ public class Post {
 
     @ManyToOne
     @JoinColumn(name = "admin_id")
-    private AdminEntity admin;
+    private UserEntity admin;
 
 
 

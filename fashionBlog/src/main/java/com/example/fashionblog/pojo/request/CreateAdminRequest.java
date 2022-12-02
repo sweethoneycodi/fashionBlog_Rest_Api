@@ -1,5 +1,7 @@
 package com.example.fashionblog.pojo.request;
 
+import com.example.fashionblog.enums.Role;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -20,6 +22,9 @@ public class CreateAdminRequest {
 
     @Email
     private String email;
+
+    @Enumerated
+    private Role role;
 
     @NotNull(message = "required")
     private String password;

@@ -1,11 +1,12 @@
 package com.example.fashionblog.io;
 
+import com.example.fashionblog.enums.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 
-import java.io.Serializable;
+import java.util.List;
+
 @Entity()
 @Table(name = "users")
 @Getter
@@ -27,6 +28,12 @@ public class UserEntity {
 
     @Column(nullable = false,length = 25)
     private String email;
+
+    @Enumerated
+    private Role role;
+
+    @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL)
+    private List<Post> posts;
 
 
     @Column(nullable = false)

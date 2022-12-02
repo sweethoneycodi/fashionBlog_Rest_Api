@@ -30,7 +30,7 @@ public class BlogUserController {
         return returnValue;
     }
     @PostMapping("/login")
-    public LoginRest loginAdmin(@RequestBody LoginRest request) {
+    public LoginRest loginAdmin(@Valid @RequestBody LoginRest request) {
         LoginRest returnValue =  new LoginRest();
 
         UserDto userDto = new UserDto();

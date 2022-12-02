@@ -1,9 +1,10 @@
 package com.example.fashionblog.service.serviceImp;
 
 import com.example.fashionblog.dto.UserDto;
+import com.example.fashionblog.enums.Role;
 import com.example.fashionblog.exception.exceptionLoader.UserAlreadyExist;
 import com.example.fashionblog.exception.exceptionLoader.UserNotFound;
-import com.example.fashionblog.io.AdminEntity;
+import com.example.fashionblog.io.UserEntity;
 import com.example.fashionblog.repository.UserRepository;
 import com.example.fashionblog.service.UserService;
 import com.example.fashionblog.shared.Util;
@@ -20,6 +21,7 @@ public class UserServiceImp implements UserService {
     private  final UserRepository userRepository;
 
 
+
     private final Util utils;
 
     @Override
@@ -27,16 +29,16 @@ public class UserServiceImp implements UserService {
 
         if(userRepository.findByEmail(user.getEmail()).isPresent()) throw new UserAlreadyExist("User already created.");
 
-        AdminEntity adminEntity = new AdminEntity();
-        BeanUtils.copyProperties(user, adminEntity);
+        UserEntity userEntity = new UserEntity();
+        BeanUtils.copyProperties(user, userEntity);
 
 
         String publicUserId = utils.generatedUserId(15);
+        userEntity.setRole(Role.ADMIN);
+        userEntity.setEncryptedPassword("test");
+        userEntity.setUserId(publicUserId);
 
-        adminEntity.setEncryptedPassword("test");
-        adminEntity.setUserId(publicUserId);
-
-        AdminEntity storedUser = userRepository.save(adminEntity);
+        UserEntity storedUser = userRepository.save(userEntity);
         UserDto returnValue = new UserDto();
         BeanUtils.copyProperties(storedUser,returnValue);
         return returnValue;
@@ -45,7 +47,7 @@ public class UserServiceImp implements UserService {
     @Override
     public UserDto login(UserDto userDto) {
 
-        Optional<AdminEntity> adminEntity = userRepository.findByEmail(userDto.getEmail());
+        Optional<UserEntity> adminEntity = userRepository.findByEmail(userDto.getEmail());
         if(adminEntity.isEmpty())
             throw new UserNotFound("Kindly register or possible error input");
         UserDto returnValue = new UserDto();
