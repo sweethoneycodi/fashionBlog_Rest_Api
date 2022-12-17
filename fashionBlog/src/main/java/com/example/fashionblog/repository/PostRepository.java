@@ -12,5 +12,4 @@ public interface PostRepository extends CrudRepository<Post, Long> {
     boolean existsById(Long id);
     Optional<Post> findPostByTitle(String title);
 
-    List<Post> findAllPost();
 }

@@ -11,13 +11,13 @@ import java.util.List;
 @Table(name = "users")
 @Getter
 @Setter
-public class UserEntity {
+public class User {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
 
-    @Column(nullable = false,length = 50)
+    @Column(nullable = false, length = 15)
     private String userId;
 
     @Column(nullable = false,length = 15)
@@ -31,10 +31,6 @@ public class UserEntity {
 
     @Enumerated
     private Role role;
-
-    @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL)
-    private List<Post> posts;
-
 
     @Column(nullable = false)
     private String encryptedPassword;

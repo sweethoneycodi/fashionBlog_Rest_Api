@@ -1,9 +1,8 @@
 package com.example.fashionblog.service.serviceImp;
 
 import com.example.fashionblog.dto.PostDto;
-import com.example.fashionblog.enums.Role;
 import com.example.fashionblog.io.Post;
-import com.example.fashionblog.io.UserEntity;
+import com.example.fashionblog.io.User;
 import com.example.fashionblog.repository.PostRepository;
 import com.example.fashionblog.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +10,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,14 +23,13 @@ public class PostServiceImp implements PostService {
     @Override
     public PostDto createPost(PostDto postDto) {
         Post newPost = new Post();
-        UserEntity user = new UserEntity();
+        User user = new User();
 
-        if(user.getRole() != Role.ADMIN) throw new RuntimeException("cannot post");
+     //   if(user.getRole() != Role.ADMIN) throw new RuntimeException("cannot post");
 
         newPost.setTitle(postDto.getTitle());
         newPost.setDescription(postDto.getDescription());
         newPost.setImage(postDto.getImage());
-        newPost.setPostTime(LocalDateTime.now());
 
         Post storedPost = postRepository.save(newPost);
 
@@ -71,19 +68,23 @@ public class PostServiceImp implements PostService {
     }
 
     @Override
-    public List<PostDto> getAllPost(PostDto postDto, Long id) {
-        List<Post> posts = postRepository.findAllPost();
-        List<PostDto> allPosts = new ArrayList<>();
-             posts
-                     .forEach(post -> {PostDto postDto1 = new PostDto();
-                     BeanUtils.copyProperties(post,postDto1);
-                     allPosts.add(postDto1);});
+    public List<Post> getAllPost() {
 
-        return allPosts;
+        return (List<Post>) postRepository.findAll();
+
+//        List<Post> posts = postRepository.findAllPost(id);
+//        List<PostDto> allPosts = new ArrayList<>();
+//             posts
+//                     .forEach(post -> {PostDto postDto1 = new PostDto();
+//                     BeanUtils.copyProperties(post,postDto1);
+//                     allPosts.add(postDto1);});
+//
+//        return allPosts;
     }
 
     @Override
-    public void deletePost(Long id) {
+    public String deletePost(Long id) {
         postRepository.deleteById(id);
+        return "deleted";
     }
 }

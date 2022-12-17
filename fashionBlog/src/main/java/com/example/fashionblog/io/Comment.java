@@ -5,6 +5,8 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
 @Entity
 @Data
 @Getter
@@ -18,14 +20,17 @@ public class Comment {
 
     private String text;
 
-    @ManyToOne
-    private UserEntity user;
-
-    @ManyToOne
-    private Post post;
-
-    private boolean likeComment;
-
     @CreationTimestamp
     private LocalDateTime commentTime;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    private Post post;
+
+    @OneToMany(mappedBy = "comment", orphanRemoval = true,cascade = CascadeType.ALL)
+    private List<Like> likes;
 }

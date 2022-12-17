@@ -12,12 +12,13 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 public class PostDto {
+
     @NotNull(message = "required")
     private String title;
+
     @NotNull(message = "required")
     private String description;
+
     @NotNull(message = "required")
     private String image;
-    private LocalDateTime postTime;
-    private LocalDateTime updateTime;
 }

@@ -1,10 +1,9 @@
 package com.example.fashionblog.service.serviceImp;
 
 import com.example.fashionblog.dto.UserDto;
-import com.example.fashionblog.enums.Role;
 import com.example.fashionblog.exception.exceptionLoader.UserAlreadyExist;
-import com.example.fashionblog.exception.exceptionLoader.UserNotFound;
-import com.example.fashionblog.io.UserEntity;
+import com.example.fashionblog.exception.exceptionLoader.UserNotFoundException;
+import com.example.fashionblog.io.User;
 import com.example.fashionblog.repository.UserRepository;
 import com.example.fashionblog.service.UserService;
 import com.example.fashionblog.shared.Util;
@@ -29,16 +28,16 @@ public class UserServiceImp implements UserService {
 
         if(userRepository.findByEmail(user.getEmail()).isPresent()) throw new UserAlreadyExist("User already created.");
 
-        UserEntity userEntity = new UserEntity();
+        User userEntity = new User();
         BeanUtils.copyProperties(user, userEntity);
 
 
         String publicUserId = utils.generatedUserId(15);
-        userEntity.setRole(Role.ADMIN);
+       // userEntity.setRole(Role.ADMIN);
         userEntity.setEncryptedPassword("test");
         userEntity.setUserId(publicUserId);
 
-        UserEntity storedUser = userRepository.save(userEntity);
+        User storedUser = userRepository.save(userEntity);
         UserDto returnValue = new UserDto();
         BeanUtils.copyProperties(storedUser,returnValue);
         return returnValue;
@@ -47,9 +46,9 @@ public class UserServiceImp implements UserService {
     @Override
     public UserDto login(UserDto userDto) {
 
-        Optional<UserEntity> adminEntity = userRepository.findByEmail(userDto.getEmail());
+        Optional<User> adminEntity = userRepository.findByEmail(userDto.getEmail());
         if(adminEntity.isEmpty())
-            throw new UserNotFound("Kindly register or possible error input");
+            throw new UserNotFoundException("Kindly register or possible error input");
         UserDto returnValue = new UserDto();
             BeanUtils.copyProperties(adminEntity.get(),returnValue);
 

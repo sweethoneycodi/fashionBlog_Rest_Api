@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Setter
@@ -19,7 +20,7 @@ import java.time.LocalDateTime;
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long postId;
 
     @Column(nullable = false)
     private String title;
@@ -38,9 +39,13 @@ public class Post {
 
 
     @ManyToOne
-    @JoinColumn(name = "admin_id")
-    private UserEntity admin;
+    @JoinColumn(name = "id")
+    private User user;
 
+    @OneToMany(mappedBy = "post", orphanRemoval = true, cascade = CascadeType.ALL)
+    private List<Comment> commentList;
 
+    @OneToMany(mappedBy = "post", orphanRemoval = true,cascade = CascadeType.ALL)
+    private List<Like> likes;
 
 }
