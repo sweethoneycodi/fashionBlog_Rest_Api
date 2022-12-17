@@ -97,7 +97,7 @@
                 </configuration>
             </plugin>
         </plugins>
-        <finalName>Spring-boot-docker</finalName>
+        <finalName>springboot-image-new</finalName>
     </build>
 
 </project>

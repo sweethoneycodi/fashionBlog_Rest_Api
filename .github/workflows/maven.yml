@@ -24,7 +24,7 @@ jobs:
       - name: Build and push Docker image
         uses: mr-smithers-excellent/docker-build-push@v5
         with:
-          image: teem001/blog-app-cicd
+          image: tagyrian22/springboot-image-new
           tags: v1
           registry: docker.io
           dockerfile: Dockerfile
