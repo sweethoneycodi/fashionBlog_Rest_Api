@@ -46,16 +46,4 @@ class PostControllerTest {
                 .andExpect(status().isCreated());
     }
 
-    @Test
-    void updatePost() {
-    }
-
-    @Test
-    void getAllPost() {
-
-    }
-
-    @Test
-    void deletePost() {
-    }
 }
