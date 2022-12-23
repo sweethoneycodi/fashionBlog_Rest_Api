@@ -19,8 +19,8 @@ jobs:
         uses: stCarolas/setup-maven@v4.4
         with:
           maven-version: 3.8.2
-      - name: run compile
-        run: mvn clean install
+      - name: Build with maven
+        run: mvn -B package --file pom.xml
       - name: Build and push Docker image
         uses: mr-smithers-excellent/docker-build-push@v5
         with:
